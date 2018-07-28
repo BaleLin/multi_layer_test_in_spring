@@ -91,7 +91,7 @@ public class CompaniesReositoryTest {
         assertThat(companiesReository.findById(1L).get().getName(), is("meizu"));
 
 
-    }   
+    }     
     @Test
     public void deleteCompanyById() {
 
