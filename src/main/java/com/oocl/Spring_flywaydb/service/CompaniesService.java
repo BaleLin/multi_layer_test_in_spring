@@ -29,21 +29,21 @@ public class CompaniesService {
     }
 
 
-    public CompaniesDTO addCompanies(Companies companies){
+    public boolean addCompanies(Companies companies){
         companies.getEmployees().stream().forEach(employees -> {
             employees.setCompanies(companies);
         });
-        companiesReository.save(companies);
-        return new CompaniesDTO(companies);
+            Companies save = companiesReository.save(companies);
+        return save!=null;
     }
 
 
-    public ResponseEntity<Object> updateCompanies(Companies companies){
+    public boolean updateCompanies(Companies companies){
         companies.getEmployees().stream().filter(employees -> employees.getCompanies()==null).forEach(employees -> {
             employees.setCompanies(companies);
         });
-        companiesReository.save(companies);
-        return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        Companies save = companiesReository.save(companies);
+        return save!=null;
     }
 
 
@@ -53,10 +53,9 @@ public class CompaniesService {
     }
 
 
-    public CompaniesDTO delete(Long id){
-        Companies one = companiesReository.findById(id).get();
-        companiesReository.delete(one);
-        return new CompaniesDTO(one);
+    public boolean deleteById(Long id){
+      int deleteId = companiesReository.deleteCompaniesById(id);
+        return deleteId!=0;
     }
 
 }

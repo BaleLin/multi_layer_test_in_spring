@@ -28,14 +28,21 @@ public class CompaniesController {
 
     @Transactional
     @PostMapping("/Companies")
-    public CompaniesDTO addCompanies(@RequestBody Companies companies){
-        return companiesService.addCompanies(companies);
+    public ResponseEntity addCompanies(@RequestBody Companies companies){
+        if (companiesService.addCompanies(companies)){
+            return ResponseEntity.status(HttpStatus.CREATED).build();
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+
     }
 
     @Transactional
     @PutMapping("/Companies")
-    public ResponseEntity<Object> updateCompanies(@RequestBody Companies companies){
-       return companiesService.updateCompanies(companies);
+    public ResponseEntity updateCompanies(@RequestBody Companies companies){
+      if (companiesService.updateCompanies(companies)){
+          return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+      }
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
     @Transactional
@@ -46,8 +53,11 @@ public class CompaniesController {
 
     @Transactional
     @DeleteMapping("/Companies/{id}")
-    public CompaniesDTO delete(@PathVariable("id")Long id){
-        return companiesService.delete(id);
+    public ResponseEntity delete(@PathVariable("id")Long id){
+        if (companiesService.deleteById(id)){
+            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 
 }
