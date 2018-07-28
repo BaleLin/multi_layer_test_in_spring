@@ -90,6 +90,19 @@ public class CompaniesControllerTest {
     }
 
     @Test
+    public void should_return_bad_request_when_fail_to_create_a_todo()throws Exception{
+        //given
+        Companies companies1 = new Companies(1L,"oocl");
+        //when
+        when(companiesService.addCompanies(any(Companies.class))).thenReturn(false);
+        ResultActions result = mockMvc.perform(post("/Companies")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(companies1)));
+        //then
+        result.andExpect(status().isBadRequest())
+                .andDo(print());
+    }
+    @Test
     public void should_update_the_1L_id_successful_when_put_company_slash_id_with_body_json_company()throws Exception{
         //given
         Companies companies1 = new Companies(1L,"oocl");
@@ -117,5 +130,5 @@ public class CompaniesControllerTest {
         result.andExpect(status().isNoContent())
                 .andDo(print());
     }
-
+    
 }
