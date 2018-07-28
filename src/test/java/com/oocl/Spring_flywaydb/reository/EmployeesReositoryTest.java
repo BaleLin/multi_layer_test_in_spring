@@ -50,7 +50,7 @@ public class EmployeesReositoryTest {
         entityManager.persist(new Employees(1L,"xiaoming"));
         entityManager.persist(new Employees(2L,"lisi"));
 
-        //when          
+        //when
         Employees employees = employeesReository.findById(1L).get();
 
         //then
