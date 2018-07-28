@@ -1,4 +1,4 @@
-package com.oocl.Spring_flywaydb.controller;
+package com.oocl.Spring_flywaydb.reository;
 
 import com.oocl.Spring_flywaydb.entities.oneToMany.Companies;
 import com.oocl.Spring_flywaydb.repositories.oneToMany.CompaniesReository;
@@ -91,7 +91,7 @@ public class CompaniesReositoryTest {
         assertThat(companiesReository.findById(1L).get().getName(), is("meizu"));
 
 
-    }     
+    }
     @Test
     public void deleteCompanyById() {
 
