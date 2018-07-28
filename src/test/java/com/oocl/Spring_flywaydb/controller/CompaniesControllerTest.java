@@ -55,19 +55,16 @@ public class CompaniesControllerTest {
                 .andExpect(jsonPath("$[1].name",is("huawei")));
 }
     @Test
-    public void should_return_a_company_when_call_findOne_api()throws Exception{
+    public void should_get_indicated_todo_by_id()throws Exception{
         //given
-        Companies companies = new Companies("oocl");
-        CompaniesDTO companiesDTO = new CompaniesDTO(companies);
-
-
+        Companies companies1 = new Companies(1L,"oocl");
+        CompaniesDTO companiesDTO = new CompaniesDTO(companies1);
         //when
-            given(companiesService.addCompanies(any(Companies.class))).willReturn(companiesDTO);
-            //then
-        mockMvc.perform(get("/Companies")).andExpect(status().isOk())
-                .andExpect(jsonPath("$",hasSize(2)))
-                .andExpect(jsonPath("$[0].name",is("oocl")))
-                .andExpect(jsonPath("$[1].name",is("huawei")));
+        given(companiesService.getById(1L)).willReturn(companiesDTO);
+        //then
+        mockMvc.perform(get("/Companies/1")).andExpect(status().isOk())
+                .andExpect(jsonPath("$.id",is(1)))
+                .andExpect(jsonPath("$.name",is(companiesDTO.getName())));
     }
 
 }

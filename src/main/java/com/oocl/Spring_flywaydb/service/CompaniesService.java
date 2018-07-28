@@ -47,7 +47,7 @@ public class CompaniesService {
     }
 
 
-    public CompaniesDTO get(Long id){
+    public CompaniesDTO getById(Long id){
         Companies companies = companiesReository.findById(id).get();
         return new CompaniesDTO(companies);
     }

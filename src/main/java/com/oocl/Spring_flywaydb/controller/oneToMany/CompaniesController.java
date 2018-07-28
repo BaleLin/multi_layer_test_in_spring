@@ -40,8 +40,8 @@ public class CompaniesController {
 
     @Transactional
     @GetMapping("/Companies/{id}")
-    public CompaniesDTO get(@PathVariable("id") Long id){
-       return companiesService.get(id);
+    public CompaniesDTO getById(@PathVariable("id") Long id){
+       return companiesService.getById(id);
     }
 
     @Transactional
