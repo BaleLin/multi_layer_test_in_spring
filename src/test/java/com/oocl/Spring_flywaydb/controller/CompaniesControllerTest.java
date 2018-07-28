@@ -130,5 +130,24 @@ public class CompaniesControllerTest {
         result.andExpect(status().isNoContent())
                 .andDo(print());
     }
-    
+
+    @Test
+    public void should_get_all_customers_by_page_without_any_paramters() throws Exception {
+
+        //given
+
+        Companies companies1 = new Companies(1L,"oocl");
+        Companies companies2 = new Companies(2L,"huawei");
+        List<CompaniesDTO> companiesList = Arrays.asList(new CompaniesDTO(companies1),new CompaniesDTO(companies2));
+        //when
+        given(companiesService.getAllCompaniesByPage(2,1)).willReturn(companiesList);
+
+        //then
+        mockMvc.perform(get("/Companies/page/2/pageSize/1")).andExpect(status().isOk())
+                .andExpect(jsonPath("$",hasSize(2)))
+                .andExpect(jsonPath("$[0].id",is(1)))
+                .andExpect(jsonPath("$[0].name",is("oocl")))
+                .andExpect(jsonPath("$[1].id",is(2)))
+                .andExpect(jsonPath("$[1].name",is("huawei")));
+    }
 }

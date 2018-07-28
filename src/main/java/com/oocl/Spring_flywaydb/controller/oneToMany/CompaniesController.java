@@ -27,6 +27,12 @@ public class CompaniesController {
     }
 
     @Transactional
+    @GetMapping("/Companies/page/{page}/pageSize/{pageSize}")
+    public List<CompaniesDTO> getAllCompanies(@PathVariable int page,@PathVariable int pageSize){
+        return companiesService.getAllCompaniesByPage(page,pageSize);
+    }
+
+    @Transactional
     @PostMapping("/Companies")
     public ResponseEntity addCompanies(@RequestBody Companies companies){
         if (companiesService.addCompanies(companies)){

@@ -5,6 +5,7 @@ import com.oocl.Spring_flywaydb.entities.oneToMany.Companies;
 import com.oocl.Spring_flywaydb.repositories.oneToMany.CompaniesReository;
 import com.oocl.Spring_flywaydb.repositories.oneToMany.EmployeesReository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -28,6 +29,10 @@ public class CompaniesService {
             new CompaniesDTO(item)).collect(Collectors.toList());
     }
 
+    public List<CompaniesDTO> getAllCompaniesByPage(int page,int pageSize){
+        return companiesReository.findAll(PageRequest.of(page,pageSize)).stream().map(item->
+                new CompaniesDTO(item)).collect(Collectors.toList());
+    }
 
     public boolean addCompanies(Companies companies){
         companies.getEmployees().stream().forEach(employees -> {
@@ -57,5 +62,7 @@ public class CompaniesService {
       int deleteId = companiesReository.deleteCompaniesById(id);
         return deleteId!=0;
     }
+
+
 
 }
