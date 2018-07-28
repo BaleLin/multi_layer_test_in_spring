@@ -80,4 +80,16 @@ public class EmployeesReositoryTest {
         //then
         assertThat(employeesReository.findById(1L).get().getName(),is("jkson"));
     }
+    @Test
+    public void deleteTheEmployeesById() {
+        //given
+        entityManager.persist(new Employees(1L,"xiaoming"));
+        entityManager.persist(new Employees(2L,"jkson"));
+        //when
+        employeesReository.deleteEmployeesById(1L);
+
+        //then
+        assertThat(employeesReository.findAll().size(),is(1));
+    }
+
 }
