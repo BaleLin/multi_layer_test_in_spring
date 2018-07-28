@@ -14,7 +14,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @RestController
-public class CompaniesController {
+public class CompaniesController{
     @Autowired
     private CompaniesService companiesService;
 

@@ -1,11 +1,14 @@
 package com.oocl.Spring_flywaydb.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.oocl.Spring_flywaydb.controller.dto.oneToMany.CompaniesDTO;
-import com.oocl.Spring_flywaydb.controller.oneToMany.CompaniesController;
+import com.oocl.Spring_flywaydb.controller.dto.oneToMany.EmployeesDTO;
 import com.oocl.Spring_flywaydb.controller.oneToMany.EmployeesController;
-import com.oocl.Spring_flywaydb.entities.oneToMany.Companies;
-import com.oocl.Spring_flywaydb.service.CompaniesService;
+import com.oocl.Spring_flywaydb.entities.oneToMany.Employees;
+import com.oocl.Spring_flywaydb.service.EmployeesService;
+import com.oocl.Spring_flywaydb.controller.dto.oneToMany.EmployeesDTO;
+import com.oocl.Spring_flywaydb.controller.oneToMany.EmployeesController;
+import com.oocl.Spring_flywaydb.entities.oneToMany.Employees;
+import com.oocl.Spring_flywaydb.service.EmployeesService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +26,6 @@ import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
-
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -31,57 +33,56 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
-@WebMvcTest(CompaniesController.class)
-public class CompaniesControllerTest {
+@WebMvcTest(EmployeesController.class)
+public class EmployeesControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private CompaniesService companiesService;
+    private EmployeesService employeesService;
 
     @Autowired
     private ObjectMapper objectMapper;
-
     @Test
-    public void should_get_all_customers_without_any_paramters()throws Exception{
+    public void should_get_all_employees_without_any_paramters()throws Exception{
         //given
 
-        Companies companies1 = new Companies(1L,"oocl");
-        Companies companies2 = new Companies(2L,"huawei");
-        List<CompaniesDTO> companiesList = Arrays.asList(new CompaniesDTO(companies1),new CompaniesDTO(companies2));
+        Employees employees1 = new Employees(1L,"liming");
+        Employees employees2 = new Employees(2L,"huawei");
+        List<EmployeesDTO> employeesList = Arrays.asList(new EmployeesDTO(employees1),new EmployeesDTO(employees2));
         //when
-        given(companiesService.getAllCompanies()).willReturn(companiesList);
+        given(employeesService.getAllEmployees()).willReturn(employeesList);
 
         //then
-        mockMvc.perform(get("/Companies")).andExpect(status().isOk())
+        mockMvc.perform(get("/Employees")).andExpect(status().isOk())
                 .andExpect(jsonPath("$",hasSize(2)))
                 .andExpect(jsonPath("$[0].id",is(1)))
-                .andExpect(jsonPath("$[0].name",is("oocl")))
+                .andExpect(jsonPath("$[0].name",is("liming")))
                 .andExpect(jsonPath("$[1].id",is(2)))
                 .andExpect(jsonPath("$[1].name",is("huawei")));
-}
+    }
     @Test
     public void should_get_indicated_todo_by_id()throws Exception{
         //given
-        Companies companies1 = new Companies(1L,"oocl");
-        CompaniesDTO companiesDTO = new CompaniesDTO(companies1);
+        Employees employees1 = new Employees(1L,"liming");
+        EmployeesDTO employeesDTO = new EmployeesDTO(employees1);
         //when
-        given(companiesService.getById(1L)).willReturn(companiesDTO);
+        given(employeesService.getById(1L)).willReturn(employeesDTO);
         //then
-        mockMvc.perform(get("/Companies/1")).andExpect(status().isOk())
+        mockMvc.perform(get("/Employees/1")).andExpect(status().isOk())
                 .andExpect(jsonPath("$.id",is(1)))
-                .andExpect(jsonPath("$.name",is(companiesDTO.getName())));
+                .andExpect(jsonPath("$.name",is(employeesDTO.getName())));
     }
 
     @Test
     public void should_return_created_when_post_to_create_a_todo()throws Exception{
         //given
-        Companies companies1 = new Companies(1L,"oocl");
+        Employees employees1 = new Employees(1L,"liming");
         //when
-        when(companiesService.addCompanies(any(Companies.class))).thenReturn(true);
-        ResultActions result = mockMvc.perform(post("/Companies")
+        when(employeesService.addEmployees(any(Employees.class))).thenReturn(true);
+        ResultActions result = mockMvc.perform(post("/Employees")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(companies1)));
+                .content(objectMapper.writeValueAsString(employees1)));
         //then
         result.andExpect(status().isCreated())
                 .andDo(print());
@@ -90,39 +91,39 @@ public class CompaniesControllerTest {
     @Test
     public void should_return_bad_request_when_fail_to_create_a_todo()throws Exception{
         //given
-        Companies companies1 = new Companies(1L,"oocl");
+        Employees employees1 = new Employees(1L,"liming");
         //when
-        when(companiesService.addCompanies(any(Companies.class))).thenReturn(false);
-        ResultActions result = mockMvc.perform(post("/Companies")
+        when(employeesService.addEmployees(any(Employees.class))).thenReturn(false);
+        ResultActions result = mockMvc.perform(post("/Employees")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(companies1)));
+                .content(objectMapper.writeValueAsString(employees1)));
         //then
         result.andExpect(status().isBadRequest())
                 .andDo(print());
     }
     @Test
-    public void should_update_the_1L_id_successful_when_put_company_slash_id_with_body_json_company()throws Exception{
+    public void should_update_the_1L_id_successful_when_put_employee_slash_id_with_body_json_employee()throws Exception{
         //given
-        Companies companies1 = new Companies(1L,"oocl");
+        Employees employees1 = new Employees(1L,"liming");
         //when
-        when(companiesService.updateCompanies(any(Companies.class))).thenReturn(true);
-        ResultActions result = mockMvc.perform(put("/Companies")
+        when(employeesService.updateEmployees(any(Employees.class))).thenReturn(true);
+        ResultActions result = mockMvc.perform(put("/Employees")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(companies1)));
+                .content(objectMapper.writeValueAsString(employees1)));
         //then
         result.andExpect(status().isNoContent())
                 .andDo(print());
     }
 
     @Test
-    public void should_delete_company_when_call_http_delete_call_by_id() throws Exception {
+    public void should_delete_employee_when_call_http_delete_call_by_id() throws Exception {
 
         //given
-        Companies companies1 = new Companies(1L,"oocl");
-        when(companiesService.deleteById(1L)).thenReturn(true);
+        Employees employees1 = new Employees(1L,"liming");
+        when(employeesService.deleteById(1L)).thenReturn(true);
         //when
         ResultActions result = mockMvc.perform
-                (delete("/Companies/1"));
+                (delete("/Employees/1"));
 
         //then
         result.andExpect(status().isNoContent())
