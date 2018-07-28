@@ -22,7 +22,7 @@ public class CompaniesController {
 
     @Transactional
     @GetMapping("/Companies")
-    public List<Companies> getAllCompanies(){
+    public List<CompaniesDTO> getAllCompanies(){
         return companiesService.getAllCompanies();
     }
 

@@ -13,7 +13,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.hamcrest.Matchers.hasSize;
@@ -35,11 +37,12 @@ public class CompaniesControllerTest {
     private CompaniesService companiesService;
 
     @Test
-    public void should_return_companys_list_when_call_findAll_api()throws Exception{
+    public void should_get_all_customers_without_any_paramters()throws Exception{
         //given
-        List<Companies> companiesList = new ArrayList<>();
-        companiesList.add(new Companies(1L,"oocl"));
-        companiesList.add(new Companies(2L,"huawei"));
+
+        Companies companies1 = new Companies(1L,"oocl");
+        Companies companies2 = new Companies(2L,"huawei");
+        List<CompaniesDTO> companiesList = Arrays.asList(new CompaniesDTO(companies1),new CompaniesDTO(companies2));
         //when
         given(companiesService.getAllCompanies()).willReturn(companiesList);
 

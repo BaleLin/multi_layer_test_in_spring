@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class CompaniesService {
     @Autowired
@@ -21,8 +23,9 @@ public class CompaniesService {
     private EmployeesReository employeesReository;
 
 
-    public List<Companies> getAllCompanies(){
-        return companiesReository.findAll();
+    public List<CompaniesDTO> getAllCompanies(){
+        return companiesReository.findAll().stream().map(item->
+            new CompaniesDTO(item)).collect(Collectors.toList());
     }
 
 
