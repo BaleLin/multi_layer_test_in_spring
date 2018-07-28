@@ -69,4 +69,15 @@ public class EmployeesReositoryTest {
         //then
         assertThat(employeesReository.findById(3L).get().getName(),is("jkson"));
     }
+    @Test
+    public void updateTheEmployees() {
+        //given
+        entityManager.persist(new Employees(1L,"xiaoming"));
+        Employees employees = new Employees(1L,"jkson");
+        //when
+        employeesReository.save(employees);
+
+        //then
+        assertThat(employeesReository.findById(1L).get().getName(),is("jkson"));
+    }
 }
