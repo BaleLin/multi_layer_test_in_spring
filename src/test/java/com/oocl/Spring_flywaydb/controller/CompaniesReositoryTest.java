@@ -75,6 +75,6 @@ public class CompaniesReositoryTest {
         //then
         assertThat(companiesReository.findById(3L).get().getId(),is(3L));
         assertThat(companiesReository.findById(3L).get().getName(),is("jinshan"));
-
-    } 
+                              
+    }
 }
