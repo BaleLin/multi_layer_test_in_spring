@@ -75,6 +75,35 @@ public class CompaniesReositoryTest {
         //then
         assertThat(companiesReository.findById(3L).get().getId(),is(3L));
         assertThat(companiesReository.findById(3L).get().getName(),is("jinshan"));
-                              
+
+    }
+
+    @Test
+    public void change() {
+
+        //given
+        entityManager.persist(new Companies(1L, "oocl"));
+
+        //when
+       companiesReository.save(new Companies(1L,"meizu"));
+
+        //then
+        assertThat(companiesReository.findById(1L).get().getName(), is("meizu"));
+
+
+    }   
+    @Test
+    public void deleteCompanyById() {
+
+        //given
+        entityManager.persist(new Companies(1L, "oocl"));
+
+        //when
+        companiesReository.deleteCompaniesById(1L);
+
+        //then
+        assertThat(companiesReository.findAll().size(), is(0));
+
+
     }
 }
