@@ -15,3 +15,4 @@
       - ./gradlew --info assemble  
   
     script: ./gradlew --info check  
+  
